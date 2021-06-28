@@ -1,0 +1,169 @@
+<html>
+    <head>
+        <title>FireAI</title>
+        <meta name="title" content="FireAI">
+        <meta name="description" content="FireAI">
+        <meta property="og:image" content="https://cdn.discordapp.com/attachments/812384891165343784/812392517509185556/icon.png" >
+        <link rel="icon" href="https://cdn.discordapp.com/attachments/812384891165343784/812392517509185556/icon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=0.9">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    </head>
+    <body oncontextmenu="return false;">
+        <div align="center">
+        <div style="height:79%;overflow:hidden;" id="mesajAlani">
+        </div>
+    </div>
+        <br>
+        
+     
+        <audio id="bildirim" src="https://cdn.glitch.com/fe000e38-91dd-43d9-94a7-cfb87911b620%2Fsoft_notification%20(1).mp3"></audio>
+      
+        <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase-database.js"></script>
+        <script>
+        
+        //FİREBASE ENTEGRASYON
+        //FİREBASE ENTEGRASYON
+        var firebaseConfig = {
+          apiKey: "AIzaSyD-FWJtVsPlFVe6_H8jiGKhKPzRucxZK-8",
+          authDomain: "nightfire-9fa79.firebaseapp.com",
+          databaseURL: "https://nightfire-9fa79-default-rtdb.firebaseio.com",
+          projectId: "nightfire-9fa79",
+          storageBucket: "nightfire-9fa79.appspot.com",
+          messagingSenderId: "193556441182",
+          appId: "1:193556441182:web:3f611667f8d67a91cd2ccf"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        //FİREBASE ENTEGRASYON
+        //FİREBASE ENTEGRASYON
+   
+        function escapeHtml(str) {
+        
+          return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        
+        function mesajGonder(mesaj) {
+          var cihazid = "34334(MustafaKK)";
+
+        
+         
+        
+            var messageKey = firebase.database().ref("fireaioda1/").push().key;
+            firebase.database().ref("fireaioda1/" + messageKey).set({
+              message: mesaj,
+              from: cihazid
+            });
+            $("#mesajkutusu").val('');
+            //BOT MESAJLARI
+            //BOT MESAJLARI
+            if (mesaj.toLowerCase() == "merhaba") {
+              var messageKey = firebase.database().ref("fireaioda1/").push().key; 
+              firebase.database().ref("fireaioda1/" + messageKey).set({
+                message: "Merhaba ",
+                from: "FireAI (BOT)"
+              });
+            }
+            //BOT MESAJLARI
+            //BOT MESAJLARI
+        
+        
+        
+        }
+    
+        
+          var query = firebase.database().ref("fireaioda1");
+          var cihazid = "34334(MustafaKK)";
+          query.on('value', function(snapshot) {
+            $("#mesajAlani").html("");
+            snapshot.forEach(function(childSnapshot) {
+              var data = childSnapshot.val();
+              if(data.from == cihazid){
+                var mesaj = '<h3 style="color:lightpink;"><i class="fad fa-user"></i>&nbsp; '+data.from+' | '+data.message+'</h3>';
+                $("#mesajAlani").append(mesaj);
+              }
+              else{
+                var mesaj = '<h3 style="color:lightblue;"><i class="fad fa-user"></i>&nbsp; '+data.from+' | '+data.message+'</h3>';
+                $("#mesajAlani").append(mesaj);
+                document.getElementById("bildirim").play()
+              }
+              
+
+              
+        
+            
+        
+           
+        
+              
+        
+        
+        
+        
+        
+        
+        
+            });
+        
+          });
+      
+        
+        
+          $(document).keypress(function(event) {
+
+var keycode = (event.keyCode ? event.keyCode : event.which);
+console.log(keycode)
+if (keycode == 108) {
+g();
+
+}
+          });
+function g(){
+    const api = new webkitSpeechRecognition;
+        api.lang = "tr";
+        api.onresult = function(e){
+            if(event.results.length > 0){
+        veri = event.results[event.results.length - 1];
+      if(veri.isFinal){
+
+     
+       mesajGonder(veri[0].transcript)
+    }
+          
+        //Konuşma Bitişi Algılayıcı Kapanış
+            }// Karakter Kontrol Kapanış
+        }//OnResult Kapanış
+        api.start();
+    }
+  setInterval(otoindir, 110);
+function otoindir() {
+var element = document.getElementById("mesajAlani");
+element.scrollTop = element.scrollHeight;
+}
+    
+     
+              </script>
+      
+        </div>
+     
+<style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap');
+          body{
+              background:#36393F;
+              color:white;
+              font-family: 'Noto Sans JP', sans-serif;
+          }
+          button{
+              padding:5px 10px;
+              font-size:24px;
+              border:2px;
+              border-radius:5px;
+              background:#6BA8E7;
+              color:white;
+          }
+</style>
+
+    </body>
+</html>
